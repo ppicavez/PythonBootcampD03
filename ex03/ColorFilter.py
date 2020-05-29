@@ -32,19 +32,11 @@ class ColorFilter():
     def to_red(self, array):
         return array - self.to_blue(array) - self.to_green(array)
 
-    def celluloid(self, array, tresh=4):
+    def to_celluloid(self, array, tresh=4):
         new = np.array(array)
-        hold = np.linspace(0.0, 1.0, num=tresh, endpoint=False)[::-1]
-        for i in hold:
-            indexes = array >= i
-            array[indexes] = -1
-            new[indexes] = i
+        thresolds = np.linspace(0.0, 1.0, num=tresh, endpoint=False)[::-1]
+        for thresold in thresolds:
+            pixels_indexes = array >= thresold
+            array[pixels_indexes] = -100
+            new[pixels_indexes] = thresold
         return new
-
-
-if __name__ == "__main__":
-    imp = ImageProcessor()
-    cf = ColorFilter()
-    arr = imp.load("../resources/42AI.png")
-    arr = cf.invert(arr)
-    imp.display(arr)
